@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JumpLine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: white;
+            overflow: hidden;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        #gameCanvas {
+            display: block;
+            image-rendering: pixelated;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: var(--foreground-color, black);
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 100;
+            line-height: 1.6;
+            text-shadow: 1px 1px 0 var(--background-color, white), -1px -1px 0 var(--background-color, white), 1px -1px 0 var(--background-color, white), -1px 1px 0 var(--background-color, white), 2px 2px 3px rgba(0,0,0,0.2);
+        }
+
+        #active-powers {
+            margin-top: 10px;
+        }
+
+        .powerup-indicator {
+            padding: 4px 10px;
+            background-color: var(--powerup-bg-color, rgba(0,0,0,0.1));
+            border-radius: 5px;
+            margin-top: 8px;
+            font-size: 16px;
+            display: inline-block;
+            border: 2px solid var(--foreground-color, black);
+        }
+
+        #gameOverPopup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 3px solid black;
+            padding: 30px;
+            text-align: center;
+            z-index: 200;
+            display: none;
+            width: 300px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #gameOverPopup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #gameOverPopup img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        #gameOverPopup h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        #gameOverPopup p {
+            margin: 10px 0 20px;
+            font-size: 18px;
+        }
+
+        #gameOverPopup button {
+            --button-bg: white;
+            --button-text: black;
+            --button-border: black;
+            background: var(--button-bg);
+            color: var(--button-text);
+            border: 2px solid var(--button-border);
+            padding: 10px 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        #gameOverPopup button:hover:not(:active) {
+            filter: brightness(0.9);
+            transform: scale(1.05);
+        }
+
+        #mainMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Mono', monospace;
+            color: black;
+            text-align: center;
+        }
+
+        #settingsMenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 3px solid black;
+            padding: 30px;
+            text-align: center;
+            z-index: 400; /* Higher than mainMenu */
+            display: none;
+            width: 300px;
+            font-family: 'Space Mono', monospace;
+            color: black;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #settingsMenu.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #settingsMenu h2 {
+            margin: 0 0 20px 0;
+            font-size: 28px;
+        }
+
+        .setting {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        /* Basic toggle switch styling */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 50px;
+          height: 24px;
+        }
+        .switch input { display:none; }
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          transition: .4s;
+          border-radius: 24px;
+        }
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+        }
+        input:checked + .slider {
+          background-color: black;
+        }
+        input:checked + .slider:before {
+          transform: translateX(26px);
+        }
+
+        #settingsMenu button {
+            background: white;
+            border: 2px solid black;
+            padding: 10px 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        #settingsMenu button:hover {
+            background: #eee;
+            transform: scale(1.05);
+        }
+
+        #menuCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #mainMenu h1 {
+            font-size: 5rem;
+            margin: 0;
+            z-index: 10;
+        }
+
+        .main-menu-button {
+            font-size: 2.5rem;
+            padding: 15px 60px;
+            margin-top: 40px;
+            background: white;
+            border: 3px solid black;
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 55% 45% 52% 48% / 30% 30% 70% 70%;
+            transition: background 0.2s, transform 0.1s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-menu-button:hover {
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+        #playButton {
+            font-size: 2.5rem;
+            padding: 15px 60px;
+            margin-top: 40px;
+            background: white;
+            border: 3px solid black;
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 55% 45% 52% 48% / 30% 30% 70% 70%;
+            transition: background 0.2s;
+        }
+
+        #leaderboardButton {
+            font-size: 1.5rem;
+            padding: 10px 40px;
+            margin-top: 20px;
+            border-radius: 45% 55% 62% 38% / 51% 53% 47% 49%;
+        }
+
+        .menu-corner-button {
+            position: absolute;
+            bottom: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .menu-corner-button:hover {
+            transform: scale(1.1);
+        }
+        /* Theme-colored corner icons using mask so fill equals outline/foreground color */
+        .menu-corner-button .icon {
+            width: 40px;
+            height: 40px;
+            display: block;
+            background-color: var(--corner-icon-color, black);
+        }
+        .menu-corner-button .settings-icon {
+            -webkit-mask: url('/costume1.svg') center / contain no-repeat;
+                    mask: url('/costume1.svg') center / contain no-repeat;
+        }
+        .menu-corner-button .shop-icon {
+            -webkit-mask: url('/costume2.svg') center / contain no-repeat;
+                    mask: url('/costume2.svg') center / contain no-repeat;
+        }
+
+        #settingsButton {
+            left: 20px;
+        }
+
+        #shopButton {
+            right: 20px;
+        }
+
+        #shopPopup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 3px solid black;
+            padding: 30px;
+            text-align: center;
+            z-index: 400;
+            display: none;
+            width: 380px;
+            font-family: 'Space Mono', monospace;
+            color: black;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #shopPopup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #shopItemsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .shop-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border: 2px solid black;
+            transition: background-color 0.2s;
+        }
+        
+        .shop-item:hover {
+            background-color: #f7f7f7;
+        }
+
+        .shop-item-details {
+            flex-grow: 1;
+            margin-left: 12px;
+            text-align: left;
+        }
+
+        .shop-item-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .shop-item-colors {
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        .shop-item-colors .color-swatch {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+        }
+        .shop-item-colors .color-swatch:first-child {
+            border-right: none;
+        }
+        
+        .shop-item-action {
+            flex-shrink: 0;
+        }
+
+        .shop-item-button {
+            background: white;
+            border: 2px solid black;
+            padding: 6px 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease, transform 0.1s ease, color 0.2s ease;
+            white-space: nowrap;
+            min-width: 90px; /* Ensure buttons have similar width */
+        }
+
+        .shop-item-button:hover:not(:disabled) {
+            background: #eee;
+            transform: scale(1.05);
+        }
+
+        .shop-item-button.equipped {
+            background: black;
+            color: white;
+            border-color: black;
+            cursor: default;
+        }
+        
+        .shop-item-button.equipped:hover {
+            transform: none;
+        }
+
+        .shop-item-button:disabled:not(.equipped) {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #shopPopup h2 {
+            margin: 0 0 20px 0;
+            font-size: 28px;
+        }
+
+        #shopPopup button {
+            background: white;
+            border: 2px solid black;
+            padding: 10px 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s ease, transform 0.1s ease;
+        }
+
+        #shopPopup button:hover {
+            background: #eee;
+            transform: scale(1.05);
+        }
+
+        #leaderboardPopup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 3px solid black;
+            padding: 30px;
+            text-align: center;
+            z-index: 400;
+            display: none;
+            width: 400px;
+            font-family: 'Space Mono', monospace;
+            color: black;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #leaderboardPopup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+    <div id="mainMenu">
+        <canvas id="menuCanvas"></canvas>
+        <h1>JumpLine</h1>
+        <button id="playButton" class="main-menu-button">PLAY</button>
+        <br>
+        <button id="leaderboardButton" class="main-menu-button">Leaderboard</button>
+        <button id="settingsButton" class="menu-corner-button">
+            <span class="icon settings-icon" aria-hidden="true"></span>
+        </button>
+        <button id="shopButton" class="menu-corner-button">
+            <span class="icon shop-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+
+    <div id="settingsMenu">
+        <h2>Settings</h2>
+        <div class="setting">
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" name="volume" min="0" max="1" step="0.1" value="1">
+        </div>
+        <div class="setting">
+            <label for="showTimerToggle">Show Timer:</label>
+            <label class="switch">
+                <input type="checkbox" id="showTimerToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting">
+            <label for="performanceToggle">Performance Mode:</label>
+            <label class="switch">
+                <input type="checkbox" id="performanceToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <button id="closeSettingsButton">Close</button>
+    </div>
+
+    <div id="shopPopup">
+        <h2 class="text-3xl font-bold mb-4">Shop</h2>
+        <p class="mb-4">Coins: <span id="shopCoinCount">0</span></p>
+        <div id="shopItemsContainer" class="space-y-3" style="max-height: 300px; overflow-y: auto; padding-right: 10px;">
+            <!-- Shop items will be rendered here by JS -->
+        </div>
+        <button id="closeShopButton" class="mt-6 bg-white border-2 border-black py-2 px-5 font-bold transition-all hover:bg-gray-200 hover:scale-105">Close</button>
+    </div>
+
+    <div id="leaderboardPopup">
+        <!-- React will render here -->
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui">
+        <div>Distance: <span id="distance">0</span>m</div>
+        <div id="timerContainer">Time: <span id="timer">0.0</span>s</div>
+        <div>Lives: <span id="lives">3</span></div>
+        <div id="coinBoostIndicator" style="display: none; color: #FFD700; font-weight: bold; text-shadow: 1px 1px 2px black;">👑 5x Coins!</div>
+        <div id="active-powers"></div>
+    </div>
+    
+    <div id="gameOverPopup">
+        <img src="deadhead.svg" alt="Game Over">
+        <h2>Game Over!</h2>
+        <p>You traveled <span id="finalDistance">0</span>m in <span id="finalTime">0.0</span>s</p>
+        <button id="restartButton">Play Again</button>
+        <button id="backToMenuButton" style="margin-top: 10px;">Back to Menu</button>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0?dev",
+            "react/jsx-dev-runtime": "https://esm.sh/react@18.2.0/jsx-dev-runtime",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
+            "@websim/use-query": "https://esm.websim.com/@websim/use-query",
+            "@websim/websim-socket": "https://esm.websim.com/@websim/websim-socket",
+            "./game.js": "./game.js",
+            "./assets.js": "./assets.js",
+            "./audio.js": "./audio.js",
+            "./constants.js": "./constants.js",
+            "./controls.js": "./controls.js",
+            "./easter_egg.js": "./easter_egg.js",
+            "./particles.js": "./particles.js",
+            "./player.js": "./player.js",
+            "./ui.js": "./ui.js",
+            "./world.js": "./world.js"
+        }
+    }
+    </script>
+    <script type="module" src="./app.jsx"></script>
+</body>
+</html>

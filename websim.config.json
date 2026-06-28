@@ -1,0 +1,50 @@
+{
+  "database": {
+    "schema": {
+      "scores_v1": {
+        "id": {
+          "type": "uuid",
+          "description": "User ID of the player, ensuring one best score per player."
+        },
+        "distance": {
+          "type": "integer",
+          "description": "The best distance achieved by the player in meters."
+        },
+        "time_ms": {
+          "type": "integer",
+          "description": "The time taken to achieve the best distance, in milliseconds."
+        }
+      },
+      "user_data_v1": {
+        "id": {
+          "type": "uuid",
+          "description": "User ID of the player."
+        },
+        "coins": {
+            "type": "integer",
+            "description": "Total number of Line Coins the player has."
+        },
+        "owned_palettes": {
+            "type": "jsonb",
+            "description": "An array of palette keys that the user owns."
+        },
+        "equipped_palette": {
+            "type": "text",
+            "description": "The key of the currently equipped palette."
+        },
+        "owned_songs": {
+            "type": "jsonb",
+            "description": "An array of song keys that the user owns."
+        },
+        "equipped_song": {
+            "type": "text",
+            "description": "The key of the currently equipped song."
+        },
+        "equipped_death_effect": {
+            "type": "text",
+            "description": "The key of the currently equipped death effect."
+        }
+      }
+    }
+  }
+}

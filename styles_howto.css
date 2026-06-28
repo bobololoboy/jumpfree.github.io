@@ -1,0 +1,69 @@
+#howToPopup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.96);
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid black;
+    padding: 16px 16px 12px 16px;
+    text-align: left;
+    z-index: 800;
+    display: none;
+    width: 420px;
+    max-width: 92vw;
+    font-family: 'Space Mono', monospace;
+    color: black;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#howToPopup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+#howToPopup h2 {
+    margin: 0 0 12px 0;
+    font-size: 26px;
+    font-weight: 700;
+    font-family: 'OxaniumLocal', system-ui, sans-serif;
+}
+.howto-body {
+    max-height: 55vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--foreground-color) var(--background-color);
+}
+.howto-section {
+    margin-bottom: 12px;
+}
+.howto-powerup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dashed color-mix(in srgb, var(--foreground-color), transparent 85%);
+}
+.howto-powerup:last-child {
+    border-bottom: none;
+}
+.howto-icon {
+    width: 32px;
+    height: 32px;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.howto-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}

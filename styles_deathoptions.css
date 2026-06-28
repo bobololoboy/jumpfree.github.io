@@ -1,0 +1,23 @@
+#deathOptionsPopup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid var(--foreground-color);
+    padding: 30px;
+    text-align: center;
+    z-index: 750;
+    display: none;
+    width: 380px;
+    font-family: 'Space Mono', monospace;
+    color: var(--foreground-color);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#deathOptionsPopup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}

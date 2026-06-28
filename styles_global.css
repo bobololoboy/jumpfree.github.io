@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'OxaniumLocal';
+    src: url('/Oxanium-VariableFont_wght.ttf') format('truetype');
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --foreground-color: black;
+    --background-color: white;
+    --corner-icon-color: black;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Space Mono', monospace;
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+}
+
+#gameCanvas {
+    display: block;
+    image-rendering: pixelated;
+}
+
+#visualizerCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    display: none; /* enabled when performance mode is ON */
+}
+
+.hidden {
+    display: none !important;
+}

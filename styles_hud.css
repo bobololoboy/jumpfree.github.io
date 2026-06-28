@@ -1,0 +1,25 @@
+#ui {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: var(--foreground-color, black);
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 100;
+    line-height: 1.6;
+    text-shadow: 1px 1px 0 var(--background-color, white), -1px -1px 0 var(--background-color, white), 1px -1px 0 var(--background-color, white), -1px 1px 0 var(--background-color, white), 2px 2px 3px rgba(0,0,0,0.2);
+}
+
+#active-powers {
+    margin-top: 10px;
+}
+
+.powerup-indicator {
+    padding: 4px 10px;
+    background-color: var(--powerup-bg-color, rgba(0,0,0,0.1));
+    border-radius: 5px;
+    margin-top: 8px;
+    font-size: 16px;
+    display: inline-block;
+    border: 2px solid var(--foreground-color, black);
+}

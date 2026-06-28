@@ -1,0 +1,99 @@
+#adminPanel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color, white);
+    border: 3px solid red;
+    padding: 20px;
+    text-align: center;
+    z-index: 2000;
+    display: none;
+    width: 600px;
+    max-width: 95vw;
+    font-family: 'Space Mono', monospace;
+    color: var(--foreground-color, black);
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#adminPanel.show {
+    display: block;
+}
+
+#adminPanel h2 {
+    color: red;
+    text-transform: uppercase;
+    border-bottom: 2px solid red;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.admin-section {
+    margin-bottom: 20px;
+    border: 1px dashed red;
+    padding: 10px;
+}
+
+.admin-section h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: red;
+    text-align: left;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.admin-button {
+    background: white;
+    border: 1px solid red;
+    color: red;
+    padding: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.admin-button:hover {
+    background: red;
+    color: white;
+}
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.player-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background: rgba(0,0,0,0.05);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.player-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.coin-actions {
+    display: flex;
+    gap: 5px;
+}

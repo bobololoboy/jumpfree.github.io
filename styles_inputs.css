@@ -1,0 +1,83 @@
+/* Range slider reset */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 160px;
+    height: 24px;
+    background: transparent;
+    cursor: pointer;
+}
+input[type="range"]:focus {
+    outline: none;
+}
+/* WebKit */
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--foreground-color), transparent 85%),
+        color-mix(in srgb, var(--foreground-color), transparent 85%)
+    );
+    border-radius: 3px;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -7px; /* centers the thumb on the track */
+    width: 20px;
+    height: 20px;
+    background: var(--foreground-color);
+    border: 2px solid var(--background-color);
+    border-radius: 50%;
+}
+/* Firefox */
+input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: color-mix(in srgb, var(--foreground-color), transparent 85%);
+    border-radius: 3px;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--foreground-color);
+    border: 2px solid var(--background-color);
+    border-radius: 50%;
+}
+
+/* Themed toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+.switch input { display:none; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: color-mix(in srgb, var(--foreground-color), transparent 75%);
+  transition: .4s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--background-color);
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--foreground-color), transparent 60%);
+}
+input:checked + .slider {
+  background-color: var(--foreground-color);
+}
+input:checked + .slider:before {
+  transform: translateX(26px);
+}

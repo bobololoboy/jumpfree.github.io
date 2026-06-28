@@ -1,0 +1,29 @@
+#settingsMenu button, 
+#shopPopup button, 
+#leaderboardPopup button, 
+#deathOptionsPopup button,
+#gameOverPopup button,
+#pauseMenu button {
+    --button-bg: white;
+    --button-text: black;
+    --button-border: black;
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 2px solid var(--button-border);
+    padding: 10px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease, transform 0.1s ease, filter 0.2s ease;
+}
+
+#settingsMenu button:hover:not(:active), 
+#shopPopup button:hover:not(:active), 
+#leaderboardPopup button:hover:not(:active), 
+#deathOptionsPopup button:hover:not(:active),
+#gameOverPopup button:hover:not(:active),
+#pauseMenu button:hover:not(:active) {
+    filter: brightness(0.9);
+    transform: scale(1.05);
+}

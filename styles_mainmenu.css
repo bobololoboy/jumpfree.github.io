@@ -1,0 +1,113 @@
+#mainMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    color: black;
+    text-align: center;
+}
+
+#mainMenu[data-textured="true"] {
+    background-image: none;
+}
+
+#menuCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#mainMenu h1 {
+    font-size: 5rem;
+    margin: 0;
+    z-index: 10;
+}
+
+.main-menu-button {
+    font-size: 2.5rem;
+    padding: 15px 60px;
+    margin-top: 40px;
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid black;
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 55% 45% 52% 48% / 30% 30% 70% 70%;
+    transition: background 0.2s, transform 0.1s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.main-menu-button:hover {
+    background: #f0f0f0;
+    transform: scale(1.02);
+}
+
+#playButton {
+    font-size: 2.5rem;
+    padding: 15px 60px;
+    margin-top: 40px;
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid black;
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 55% 45% 52% 48% / 30% 30% 70% 70%;
+    transition: background 0.2s;
+}
+
+#leaderboardButton {
+    font-size: 1.5rem;
+    padding: 10px 40px;
+    margin-top: 20px;
+    border-radius: 45% 55% 62% 38% / 51% 53% 47% 49%;
+}
+
+.menu-corner-button {
+    position: absolute;
+    bottom: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.menu-corner-button:hover {
+    transform: scale(1.1);
+}
+/* Theme-colored corner icons using mask so fill equals outline/foreground color */
+.menu-corner-button .icon {
+    width: 40px;
+    height: 40px;
+    display: block;
+    background-color: var(--corner-icon-color, black);
+}
+.menu-corner-button .settings-icon {
+    -webkit-mask: url('/costume1.svg') center / contain no-repeat;
+            mask: url('/costume1.svg') center / contain no-repeat;
+}
+.menu-corner-button .shop-icon {
+    -webkit-mask: url('/costume2.svg') center / contain no-repeat;
+            mask: url('/costume2.svg') center / contain no-repeat;
+}
+
+#settingsButton {
+    left: 20px;
+}
+
+#shopButton {
+    right: 20px;
+}

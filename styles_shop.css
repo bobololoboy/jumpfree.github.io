@@ -1,0 +1,123 @@
+#shopPopup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid black;
+    padding: 30px;
+    text-align: center;
+    z-index: 700;
+    display: none;
+    width: 380px;
+    font-family: 'Space Mono', monospace;
+    color: black;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#shopPopup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#shopPopup h2 {
+    margin: 0 0 20px 0;
+    font-size: 28px;
+}
+
+#shopItemsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Specific theme overrides for shop buttons */
+#shopPopup button {
+    --button-bg: var(--foreground-color);
+    --button-text: var(--background-color);
+    --button-border: var(--foreground-color);
+}
+
+.shop-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border: 2px solid black;
+    transition: background-color 0.2s;
+}
+
+.shop-item:hover {
+    background-color: #f7f7f7;
+}
+
+.shop-item-details {
+    flex-grow: 1;
+    margin-left: 12px;
+    text-align: left;
+}
+
+.shop-item-name {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.shop-item-colors {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.shop-item-colors .color-swatch {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #ddd;
+}
+.shop-item-colors .color-swatch:first-child {
+    border-right: none;
+}
+
+.shop-item-action {
+    flex-shrink: 0;
+}
+
+.shop-item-button {
+    --button-bg: var(--background-color);
+    --button-text: var(--foreground-color);
+    --button-border: var(--foreground-color);
+
+    background: var(--button-bg);
+    color: var(--button-text);
+    border: 2px solid var(--button-border);
+    padding: 6px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease, transform 0.1s ease, color 0.2s ease, filter 0.2s ease;
+    white-space: nowrap;
+    min-width: 90px;
+}
+
+.shop-item-button:hover:not(:disabled) {
+    filter: brightness(0.95);
+    transform: scale(1.05);
+}
+
+.shop-item-button.equipped {
+    background: var(--button-text);
+    color: var(--button-bg);
+    border-color: var(--button-text);
+    cursor: default;
+}
+
+.shop-item-button.equipped:hover {
+    transform: none;
+    filter: none;
+}
+
+.shop-item-button:disabled:not(.equipped) {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

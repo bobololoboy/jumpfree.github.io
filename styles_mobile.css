@@ -1,0 +1,72 @@
+#mobileControls {
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    z-index: 150;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+    pointer-events: none;
+    touch-action: none;
+}
+
+#mobileControls button {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+}
+
+#moveControls {
+    display: flex;
+    gap: 25px;
+    pointer-events: auto;
+    touch-action: none;
+}
+
+@media (max-width: 768px) {
+    #mainMenu h1 {
+        font-size: 3rem;
+    }
+    .main-menu-button {
+        font-size: 1.5rem;
+        padding: 12px 40px;
+        margin-top: 25px;
+    }
+    #leaderboardButton {
+        font-size: 1.2rem;
+        padding: 10px 30px;
+    }
+    #gameOverPopup, #settingsMenu, #shopPopup, #leaderboardPopup, #howToPopup {
+        width: 90%;
+        max-width: 350px;
+        padding: 16px;
+    }
+    .settings-grid {
+        grid-template-columns: 1fr;
+    }
+    .data-buttons {
+        grid-template-columns: 1fr;
+    }
+    #gameOverPopup h2, #settingsMenu h2, #shopPopup h2, #howToPopup h2 {
+        font-size: 24px;
+    }
+    .howto-body {
+        max-height: 50vh;
+    }
+}

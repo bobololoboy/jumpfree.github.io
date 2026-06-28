@@ -1,0 +1,53 @@
+#leaderboardPopup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid black;
+    padding: 30px;
+    text-align: center;
+    z-index: 400;
+    display: none;
+    width: 560px;
+    max-width: 92vw;
+    font-family: 'Space Mono', monospace;
+    color: black;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    overflow-x: hidden;
+}
+
+#leaderboardPopup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Themed scrollbar for leaderboard scroll area */
+#leaderboardPopup .leaderboard-scroll {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--scrollbar-thumb, var(--foreground-color)) var(--scrollbar-track, var(--background-color));
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+#leaderboardPopup .leaderboard-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+#leaderboardPopup .leaderboard-scroll::-webkit-scrollbar-track {
+    background: var(--scrollbar-track, var(--background-color));
+    border-left: 2px solid var(--scrollbar-thumb, var(--foreground-color));
+    border-right: 2px solid var(--scrollbar-thumb, var(--foreground-color));
+}
+#leaderboardPopup .leaderboard-scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb, var(--foreground-color));
+    border: 2px solid var(--scrollbar-track, var(--background-color));
+    border-radius: 8px;
+}
+#leaderboardPopup .leaderboard-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover, color-mix(in srgb, var(--foreground-color), transparent 20%));
+}
+
+#leaderboardPopup .leaderboard-scroll::-webkit-scrollbar-corner {
+    background: var(--scrollbar-corner, transparent);
+}

@@ -1,0 +1,78 @@
+#settingsMenu {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color, white);
+    background-image: var(--background-image, none);
+    border: 3px solid black;
+    padding: 24px 30px;
+    text-align: center;
+    z-index: 700;
+    display: none;
+    width: 520px;
+    max-width: 90vw;
+    font-family: 'Space Mono', monospace;
+    color: black;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#settingsMenu.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#settingsMenu h2 {
+    margin: 0 0 20px 0;
+    font-size: 28px;
+}
+
+.setting {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    padding: 0 4px;
+}
+
+.settings-group {
+    border: 2px solid color-mix(in srgb, var(--foreground-color), transparent 80%);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 16px;
+}
+
+.settings-group legend {
+    padding: 0 8px;
+    font-weight: bold;
+    color: var(--foreground-color);
+    opacity: 0.8;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
+}
+
+.data-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.data-buttons button {
+    width: 100%;
+    padding: 10px 4px;
+}
+
+.settings-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+}
+.settings-actions button {
+    flex: 1;
+}
